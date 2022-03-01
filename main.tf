@@ -28,12 +28,50 @@ provider "aws" {
 
 provider "random" {}
 
+data "aws_ami" "us-west-1" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm/ubuntu-precise-12.04-amd64-server-20170502"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+
+data "aws_ami" "us-west-2" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm/ubuntu-precise-12.04-amd64-server-20170502"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+
 resource "random_pet" "sg" {}
 
 resource "aws_instance" "web-us-west-1" {
   provider = aws
 
-  ami                    = "ami-830c94e3"
+  ami                    = data.aws_ami.us-west-1.id
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.web-sg.id]
 
@@ -47,7 +85,7 @@ resource "aws_instance" "web-us-west-1" {
 resource "aws_instance" "web-us-west-2" {
   provider = aws.us-west-2
 
-  ami                    = "ami-830c94e3"
+  ami                    = data.aws_ami.us-west-2.id
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.web-sg.id]
 
@@ -58,7 +96,19 @@ resource "aws_instance" "web-us-west-2" {
               EOF
 }
 
-resource "aws_security_group" "web-sg" {
+resource "aws_security_group" "web-sg-us-west-1" {
+  provider = aws.us-west-1
+  name = "${random_pet.sg.id}-sg"
+  ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_security_group" "web-sg-us-west-2" {
+  provider = aws.us-west-2
   name = "${random_pet.sg.id}-sg"
   ingress {
     from_port   = 8080
