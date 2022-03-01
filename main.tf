@@ -29,6 +29,7 @@ provider "aws" {
 provider "random" {}
 
 data "aws_ami" "us-west-1" {
+  owners = ["099720109477"]
   most_recent = true
 
   filter {
@@ -48,6 +49,7 @@ data "aws_ami" "us-west-1" {
 }
 
 data "aws_ami" "us-west-2" {
+  owners = ["099720109477"]
   most_recent = true
 
   filter {
