@@ -8,7 +8,7 @@ terraform {
     }
   }
 
-  backend "remote" {
+  cloud {
     organization = "metaforager"
 
     workspaces {
