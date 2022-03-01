@@ -97,8 +97,8 @@ resource "aws_instance" "web-us-west-2" {
 }
 
 resource "aws_security_group" "web-sg-us-west-1" {
-  provider = aws.us-west-1
-  name = "${random_pet.sg.id}-sg"
+  provider = aws
+  name     = "${random_pet.sg.id}-sg"
   ingress {
     from_port   = 8080
     to_port     = 8080
@@ -109,7 +109,7 @@ resource "aws_security_group" "web-sg-us-west-1" {
 
 resource "aws_security_group" "web-sg-us-west-2" {
   provider = aws.us-west-2
-  name = "${random_pet.sg.id}-sg"
+  name     = "${random_pet.sg.id}-sg"
   ingress {
     from_port   = 8080
     to_port     = 8080
