@@ -73,6 +73,10 @@ resource "aws_security_group" "web-sg" {
   }
 }
 
-output "web-address" {
-  value = "${aws_instance.web.public_dns}:8080"
+output "web-address-us-west-1" {
+  value = "${aws_instance.web-us-west-1.public_dns}:8080"
+}
+
+output "web-address-us-west-2" {
+  value = "${aws_instance.web-us-west-2.public_dns}:8080"
 }
