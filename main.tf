@@ -49,6 +49,7 @@ data "aws_ami" "us-west-1" {
 }
 
 data "aws_ami" "us-west-2" {
+  provider    = aws.us-west-2
   owners      = ["099720109477"]
   most_recent = true
 
