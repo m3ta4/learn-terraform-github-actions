@@ -73,7 +73,7 @@ resource "aws_instance" "web-us-west-1" {
 
   ami                    = data.aws_ami.us-west-1.id
   instance_type          = "t2.micro"
-  vpc_security_group_ids = [aws_security_group.web-sg.id]
+  vpc_security_group_ids = [aws_security_group.web-sg-us-west-1.id]
 
   user_data = <<-EOF
               #!/bin/bash
@@ -87,7 +87,7 @@ resource "aws_instance" "web-us-west-2" {
 
   ami                    = data.aws_ami.us-west-2.id
   instance_type          = "t2.micro"
-  vpc_security_group_ids = [aws_security_group.web-sg.id]
+  vpc_security_group_ids = [aws_security_group.web-sg-us-west-2.id]
 
   user_data = <<-EOF
               #!/bin/bash
