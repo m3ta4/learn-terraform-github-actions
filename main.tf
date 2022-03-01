@@ -27,9 +27,13 @@ provider "aws" {
   region = "us-west-2"
 }
 
-data "aws_region" "us-west-1" {}
+data "aws_region" "us-west-1" {
+  provider = aws.us-west-1
+}
 
-data "aws_region" "us-west-2" {}
+data "aws_region" "us-west-2" {
+  provider = aws.us-west-2
+}
 
 provider "random" {}
 
