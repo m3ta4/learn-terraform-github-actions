@@ -18,14 +18,40 @@ terraform {
 }
 
 provider "aws" {
+  alias  = "us-west-1"
+  region = "us-west-1"
+}
+
+provider "aws" {
+  alias  = "us-west-2"
   region = "us-west-2"
 }
+
+data "aws_region" "us-west-1" {}
+
+data "aws_region" "us-west-2" {}
 
 provider "random" {}
 
 resource "random_pet" "sg" {}
 
-resource "aws_instance" "web" {
+resource "aws_instance" "web-us-west-1" {
+  provider = aws.us-west-1
+
+  ami                    = "ami-830c94e3"
+  instance_type          = "t2.micro"
+  vpc_security_group_ids = [aws_security_group.web-sg.id]
+
+  user_data = <<-EOF
+              #!/bin/bash
+              echo "Hello, World" > index.html
+              nohup busybox httpd -f -p 8080 &
+              EOF
+}
+
+resource "aws_instance" "web-us-west-2" {
+  provider = aws.us-west-2
+
   ami                    = "ami-830c94e3"
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.web-sg.id]
